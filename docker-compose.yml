@@ -7,11 +7,11 @@ services:
       context: elasticsearch/
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-    ports:
-      - "9200:9200"
-      - "9300:9300"
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
     networks:
       - elk
 
@@ -24,6 +24,7 @@ services:
     ports:
       - "5000:5000"
       - "5044:5044"
+      - "5045:5045"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
