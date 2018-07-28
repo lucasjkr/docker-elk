@@ -168,6 +168,12 @@ elasticsearch:
 Follow the instructions from the Wiki: [Scaling out
 Elasticsearch](https://github.com/deviantony/docker-elk/wiki/Elasticsearch-cluster)
 
+### How can I generate SSL certificates for Nginx?
+
+While logged into your server and at the same directory as docker-compose.yml, issue the following command:
+
+```openssl req -x509 -batch -nodes -days 3650 -newkey rsa:4096 -keyout nginx/conf.d/pki/private/nginx-proxy.key -out nginx/conf.d/pki/certs/nginx-proxy.crt -subj "/" ```
+
 ## Storage
 
 ### How can I persist Elasticsearch data?
