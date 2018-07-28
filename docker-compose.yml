@@ -35,14 +35,27 @@ services:
       context: kibana/
     volumes:
       - ./kibana/config/:/usr/share/kibana/config:ro
+#    ports:
+#      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  nginx:
+    build:
+      context: nginx/
+    environment:
+      - APPLICATION_URL=http://docker.local
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d:ro
     ports:
-      - "5601:5601"
+      - "80:80"
     networks:
       - elk
     depends_on:
       - elasticsearch
 
 networks:
-
   elk:
     driver: bridge
