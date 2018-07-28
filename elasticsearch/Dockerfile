@@ -1,7 +1,7 @@
 # https://github.com/elastic/elasticsearch-docker
 FROM docker.elastic.co/elasticsearch/elasticsearch:6.3.2
 
-WORKDIR /tmp
+WORKDIR /root
 COPY templates/winlogbeat.template.json winlogbeat.template.json
 COPY templates/metricbeat.template.json metricbeat.template.json
 
