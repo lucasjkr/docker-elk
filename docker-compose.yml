@@ -37,6 +37,8 @@ services:
       context: kibana/
     volumes:
       - ./kibana/config/:/usr/share/kibana/config:ro
+# Port 5601 is not exposed outside of the container
+# Can be accessed through Nginx Reverse Proxy only
 #    ports:
 #      - "5601:5601"
     networks:
@@ -53,6 +55,17 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d:ro
     ports:
       - "80:80"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  fouroneone:
+    build:
+      context: fouroneone/
+# No direct access, only through Nginx Reverse Proxy
+#    ports:
+#      - "8181:80"
     networks:
       - elk
     depends_on:
