@@ -13,6 +13,4 @@ RUN chmod 700 install-templates.sh
 
 COPY templates/winlogbeat.template.json winlogbeat.template.json
 COPY templates/metricbeat.template.json metricbeat.template.json
-#RUN curl -XPUT -H 'Content-Type: application/json' http://fe2bff934860:9200/_template/metricbeat-6.3.2 -d@metricbeat.template.json
-#RUN curl -XPUT -H 'Content-Type: application/json' http://fe2bff934860:9200/_template/winlogbeat-6.3.2 -d@winlogbeat.template.json
 
