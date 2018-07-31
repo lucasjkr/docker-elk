@@ -3,21 +3,23 @@ version: '2'
 services:
 
   elasticsearch:
-    container_name: "elasticsearch"
+    container_name: elasticsearch
     build:
       context: elasticsearch/
     volumes:
+      - esdata:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
 #    ports:
 #      - "9200:9200"
 #      - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+      HOSTNAME: "elasticsearch"
     networks:
       - elk
 
   logstash:
-    container_name: "logstash"
+    container_name: logstash
     build:
       context: logstash/
     volumes:
@@ -35,7 +37,7 @@ services:
       - elasticsearch
 
   kibana:
-    container_name: "kibana"
+    container_name: kibana
     build:
       context: kibana/
     volumes:
@@ -50,7 +52,7 @@ services:
       - elasticsearch
 
   nginx:
-    container_name: "nginx"
+    container_name: nginx
     build:
       context: nginx/
     environment:
@@ -65,7 +67,7 @@ services:
       - elasticsearch
 
   fouroneone:
-    container_name: "411"
+    container_name: fouroneone
     build:
       context: fouroneone/
 # No direct access, only through Nginx Reverse Proxy
@@ -79,3 +81,6 @@ services:
 networks:
   elk:
     driver: bridge
+
+volumes:
+  esdata:
