@@ -66,6 +66,15 @@ services:
     depends_on:
       - elasticsearch
 
+  metricbeat:
+    container_name: metricbeat
+    build:
+      context: metricbeat/
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
   fouroneone:
     container_name: fouroneone
     build:
