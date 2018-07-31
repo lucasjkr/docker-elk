@@ -74,6 +74,7 @@ services:
       - elk
     depends_on:
       - elasticsearch
+      - logstash
 
   fouroneone:
     container_name: fouroneone
