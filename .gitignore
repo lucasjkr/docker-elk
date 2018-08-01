@@ -1,5 +1,5 @@
 
 .idea/*
 .DS_Store
-nginx/conf.d/pki/certs/nginx-proxy.crt
-nginx/conf.d/pki/private/nginx-proxy.key
+*.crt
+*.key
