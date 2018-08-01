@@ -16,7 +16,7 @@ metricbeat.config.modules:
   # Set to true to enable config reloading
   reload.enabled: false
 
-  # Period on which files under path should be checked for changes
+  # Period on which setup under path should be checked for changes
   #reload.period: 10s
 
 #==================== Elasticsearch template setting ==========================
