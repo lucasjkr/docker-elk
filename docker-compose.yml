@@ -76,17 +76,17 @@ services:
       - elasticsearch
       - logstash
 
-  fouroneone:
-    container_name: fouroneone
-    build:
-      context: fouroneone/
+#  fouroneone:
+#    container_name: fouroneone
+#    build:
+#      context: fouroneone/
 # No direct access, only through Nginx Reverse Proxy
 #    ports:
 #      - "8181:80"
-    networks:
-      - elk
-    depends_on:
-      - elasticsearch
+#    networks:
+#      - elk
+#    depends_on:
+#      - elasticsearch
 
 networks:
   elk:
