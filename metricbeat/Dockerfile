@@ -8,7 +8,7 @@ RUN chown metricbeat metricbeat.yml
 RUN chmod 600 metricbeat.yml
 
 # Install Dashboard Setup Script
-COPY setup install-dashboard.sh
+COPY setup/install-dashboard.sh install-dashboard.sh
 RUN chown metricbeat install-dashboard.sh
 RUN chmod 700 install-dashboard.sh
 
