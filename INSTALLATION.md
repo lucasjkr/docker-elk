@@ -37,5 +37,5 @@ docker exec -it elasticsearch /bin/bash
 ./install-templates.sh
 
 docker exec -it metricbeat /bin/bash
-
+./install-dashboard.sh
 ```
