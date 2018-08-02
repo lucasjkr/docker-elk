@@ -59,12 +59,14 @@ services:
       - APPLICATION_URL=http://docker.local
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d:ro
+      - ./opt/:/etc/nginx/certs:ro
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - elk
     depends_on:
-      - elasticsearch
+      - kibana
 
   metricbeat:
     container_name: metricbeat
