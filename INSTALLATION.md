@@ -27,6 +27,9 @@ openssl req -x509 -newkey rsa:4086 \
 
 ```
 
+**Increase VM on the host**
+sudo sysctl -w vm.max_map_count=262144
+
 **Bring up the Service for the First Time**
 ```
 docker-compose up
