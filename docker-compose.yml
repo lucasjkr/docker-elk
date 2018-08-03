@@ -8,15 +8,27 @@ services:
       context: elasticsearch/
     volumes:
       - esdata:/usr/share/elasticsearch/data
-      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-#    ports:
-#      - "9200:9200"
-#      - "9300:9300"
+      - ./elasticsearch/config/elasticsearch-cluster.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     environment:
       ES_JAVA_OPTS: "-Xmx512m -Xms512m"
       HOSTNAME: "elasticsearch"
     networks:
       - elk
+
+  elasticsearch1:
+    container_name: elasticsearch1
+    build:
+      context: elasticsearch/
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+      - ./elasticsearch/config/elasticsearch-cluster.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    environment:
+      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+      HOSTNAME: "elasticsearch1"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
 
   logstash:
     container_name: logstash
@@ -104,3 +116,4 @@ networks:
 
 volumes:
   esdata:
+  esdata1:
