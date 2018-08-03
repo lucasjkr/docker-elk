@@ -9,3 +9,7 @@ FROM docker.elastic.co/logstash/logstash:6.3.2
 # Example: RUN logstash-plugin install logstash-filter-json
 WORKDIR /usr/share/logstash
 RUN ./bin/logstash-plugin install logstash-input-beats
+
+EXPOSE 5000
+EXPOSE 5044
+EXPOSE 5045

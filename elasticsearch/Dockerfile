@@ -19,3 +19,5 @@ RUN chmod 700 install-templates.sh
 COPY templates/winlogbeat.template.json winlogbeat.template.json
 COPY templates/metricbeat.template.json metricbeat.template.json
 
+EXPOSE 9200
+EXPOSE 9300
