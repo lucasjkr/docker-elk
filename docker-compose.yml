@@ -1,7 +1,5 @@
 version: '3'
-
 services:
-
   elasticsearch:
     container_name: elasticsearch
     build:
@@ -75,6 +73,7 @@ services:
       - elk
     depends_on:
       - kibana
+      - fir
 
   metricbeat:
     container_name: metricbeat
@@ -83,20 +82,7 @@ services:
     networks:
       - elk
     depends_on:
-      - elasticsearch
       - logstash
-
-#  fouroneone:
-#    container_name: fouroneone
-#    build:
-#      context: fouroneone/
-# No direct access, only through Nginx Reverse Proxy
-#    ports:
-#      - "8181:80"
-#    networks:
-#      - elk
-#    depends_on:
-#      - elasticsearch
 
   setup:
     container_name: setup
@@ -109,6 +95,12 @@ services:
     depends_on:
       - elasticsearch
 
+  fir:
+    container_name: fir
+    build:
+      context: fir/
+    networks:
+      - elk
 
 networks:
   elk:
