@@ -28,7 +28,9 @@ openssl req -x509 -newkey rsa:4086 \
 ```
 
 **Increase VM on the host**
+```
 sudo sysctl -w vm.max_map_count=262144
+```
 
 **Bring up the Service for the First Time**
 ```
@@ -43,3 +45,11 @@ docker exec -it elasticsearch /bin/bash
 docker exec -it metricbeat /bin/bash
 ./install-dashboard.sh
 ```
+
+
+**Post Installation**
+
+Log into Kibana with web browser and create initial index patterns for `metricbeat-6.3.2-*` and
+`winlogbeat-6.3.2-*`
+
+Log into Metribeat container and load Kibana Dashboards:
