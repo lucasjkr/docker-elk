@@ -99,7 +99,7 @@ setup.kibana:
 #----------------------------- Logstash output --------------------------------
 output.logstash:
   # The Logstash hosts
-  hosts: ["128.119.61.174:5045"]
+  hosts: ["logstash:5045"]
 
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications
@@ -115,12 +115,12 @@ output.logstash:
 
 # Sets log level. The default log level is info.
 # Available log levels are: error, warning, info, debug
-#logging.level: debug
+logging.level: info
 
 # At debug level, you can selectively enable logging only for some components.
 # To enable all selectors use ["*"]. Examples of other selectors are "beat",
 # "publish", "service".
-#logging.selectors: ["*"]
+logging.selectors: ["*"]
 
 #============================== Xpack Monitoring ===============================
 # winlogbeat can export internal metrics to a central Elasticsearch monitoring
