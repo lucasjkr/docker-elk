@@ -87,9 +87,7 @@ services:
   setup:
     container_name: setup
     build:
-      context: utility-manager/
-    volumes:
-      - ./elasticsearch/templates/:/tools/es/:ro
+      context: setup/
     networks:
       - elk
     depends_on:

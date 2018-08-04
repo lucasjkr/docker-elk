@@ -1,5 +1,17 @@
 # How to get started
 
+**Pre-Installation**
+
+Add the following entries to your hosts `/etc/hosts` file:
+
+```
+127.0.0.1      logstash
+127.0.0.1      kibana.docker.local
+127.0.0.1      elasticsearch
+127.0.0.1      fir.docker.local
+
+```
+
 **Clone the repository**
 
 ```
