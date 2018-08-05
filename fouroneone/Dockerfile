@@ -3,6 +3,7 @@ FROM php:7-apache
 RUN apt-get update && \
     apt-get -y install \
     unzip \
+    nano \
     git \
     libxml2-dev \
     libcurl4-openssl-dev \
@@ -24,19 +25,20 @@ RUN docker-php-ext-install \
 RUN a2enmod headers rewrite
 
 WORKDIR /var/www/411
-RUN curl -L https://github.com/etsy/411/releases/download/v1.4.0/release.tgz | tar xz
-RUN composer install --no-dev --optimize-autoloader
+RUN curl -L https://github.com/etsy/411/releases/download/v1.5.0/release.tgz | tar xz
+RUN COMPOSER=composer-es6x.json composer install --no-dev --optimize-autoloader
 
 RUN mkdir /data
-COPY 411.conf /data/000-default.conf
+COPY config/411.conf /data/000-default.conf
 RUN ln -sf /data/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN sqlite3 /data/data.db < db.sql
 RUN ln -sf /data/data.db data.db
-COPY config.php /data/config.php
+
+COPY config/config.php /data/config.php
 RUN ln -sf /data/config.php config.php
 
-COPY init.php .
-RUN ./init.php
+COPY config/init.php .
+RUN php -f ./init.php
 RUN rm init.php
 
 RUN chmod ugo+rx -R /data
@@ -44,9 +46,11 @@ RUN chown www-data:www-data -R /data
 
 VOLUME /data
 
-COPY supervisord.conf /root/supervisord.conf
-COPY mail.ini /usr/local/etc/php/conf.d/
-COPY 411_cron /etc/cron.d/
+COPY config/supervisord.conf /root/supervisord.conf
+COPY config/mail.ini /usr/local/etc/php/conf.d/
+COPY config/411_cron /root/
+
+RUN /root/411_cron
 
 EXPOSE 80
 CMD ["/usr/bin/supervisord", "-c", "/root/supervisord.conf"]

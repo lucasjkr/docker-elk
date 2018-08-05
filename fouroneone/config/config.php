@@ -1,12 +1,10 @@
 <?php
-
 /**
  * 411 configuration file
  *
  * Rename this to 'config.php' and modify.
  */
 $config = [];
-
 /**
  * Authentication configuration
  */
@@ -37,7 +35,6 @@ $config['auth'] = [
         'enabled' => true
     ]
 ];
-
 /**
  * Database configuration
  */
@@ -58,15 +55,12 @@ $config['db'] = [
      */
     'pass' => null,
 ];
-
-
 /****
  *
  * Search type configuration
  * Note: All hostnames should specify protocol!
  *
  ***/
-
 /**
  * Elasticsearch search type
  */
@@ -74,7 +68,8 @@ $config['elasticsearch'] = [
     /**
      * Each entry in this array represents an Elasticsearch source that 411 can query.
      *
-     * 'hosts': An array of hosts powering your ES cluster.
+     * 'hosts': An array of hosts powering your ES cluster. Credentials can be passed in the url.
+     *          Ex: 'http://user:pass@localhost:9200'
      * 'index_hosts': An array of hosts to use for indexing (if different from 'hosts').
      * 'ssl_cert': Path to an ssl certificate if your cluster uses HTTPS.
      * 'index': The index to query. Leave as null to query all indices.
@@ -95,48 +90,58 @@ $config['elasticsearch'] = [
      *              '@' - Parse as a UNIX timestamp.
      *              '#' - Parse as a UNIX timestamps (in milliseconds).
      *              All other strings are interpretted via PHP's date formatting syntax.
-     * 'src_url': A format string for generating default source links.
-     *            Requires the following format specifiers: 's', 'd', 'd'.
-     *            Ex: 'https://localhost/?query=%s&from=%d&to=%d'
+     * 'src_url': A server name for generating source links.
+     *            Ex: 'https://localhost:5601'
      */
-
     # Configuration for the 411 Alerts index.
     'alerts' => [
-        'hosts' => ['http://elasticsearch:9200'],
-        'index_hosts' => [],
-        'ssl_cert' => null,
-        'index' => null,
-        'date_based' => false,
+        'hosts'         => ['http://elasticsearch:9200'],
+        'index_hosts'   => [],
+        'ssl_cert'      => null,
+        'index'         => null,
+        'date_based'    => false,
         'date_interval' => null,
-        'date_field' => 'alert_date',
-        'date_type' => null,
-        'src_url' => null,
+        'date_field'    => 'alert_date',
+        'date_type'     => null,
+        'src_url'       => null,
     ],
     # Configuration for the logstash index that 411 queries.
-    'metricbeat' => [
-        'hosts' => ['http://es:9200'],
-        'index_hosts' => [],
-        'ssl_cert' => null,
-        'index' => '[metricbeat-6.3.2-]Y.m.d',
-        'date_based' => true,
+    'logstash' => [
+        'hosts'         => ['http://elasticsearch:9200'],
+        'index_hosts'   => [],
+        'ssl_cert'      => null,
+        'index'         => '[logstash-]Y.m.d',
+        'date_based'    => true,
         'date_interval' => 'd',
-        'date_field' => '@timestamp',
-        'date_type' => null,
-        'src_url' => null,
+        'date_field'    => '@timestamp',
+        'date_type'     => null,
+        'src_url'   => null,
     ],
-    'winlogbeat' => [
-        'hosts' => ['http://es:9200'],
-        'index_hosts' => [],
-        'ssl_cert' => null,
-        'index' => '[metricbeat-6.3.2-]Y.m.d',
-        'date_based' => true,
+    # Configuration for the metricbeat index.
+    'metricbeat' => [
+        'hosts'         => ['http://elasticsearch:9200'],
+        'index_hosts'   => [],
+        'ssl_cert'      => null,
+        'index'         => '[winlogbeat-6.3.2-]Y.m.d',
+        'date_based'    => true,
         'date_interval' => 'd',
-        'date_field' => '@timestamp',
-        'date_type' => null,
-        'src_url' => null,
+        'date_field'    => '@timestamp',
+        'date_type'     => null,
+        'src_url'       => null,
+    ],
+    # Configuration for the winlogbeat index.
+    'winlogbeat'        => [
+        'hosts'         => ['http://elasticsearch:9200'],
+        'index_hosts'   => [],
+        'ssl_cert'      => null,
+        'index'         => '[winlogbeat-6.3.2-]Y.m.d',
+        'date_based'    => true,
+        'date_interval' => 'd',
+        'date_field'    => '@timestamp',
+        'date_type'     => null,
+        'src_url'       => null,
     ],
 ];
-
 /**
  * Graphite
  *
@@ -152,7 +157,6 @@ $config['graphite'] = [
         'host' => null,
     ],
 ];
-
 /**
  * ThreatExchange
  * See https://developers.facebook.com/products/threat-exchange for details.
@@ -169,14 +173,11 @@ $config['threatexchange'] = [
      */
     'api_secret' => null,
 ];
-
-
 /****
  *
  * Target configuration
  *
  ***/
-
 /**
  * Jira
  *
@@ -196,7 +197,6 @@ $config['jira'] = [
      */
     'pass' => null,
 ];
-
 /**
  * Slack
  *
@@ -207,5 +207,13 @@ $config['slack'] = [
      * A webhook url to push Alerts to.
      * See https://api.slack.com/incoming-webhooks for details.
      */
-    'webhook_url' => null
+    'webhook_url' => null,
+    /**
+     * The username to display on Alerts.
+     */
+    'username' => null,
+    /**
+     * The icon to display on Alerts.
+     */
+    'icon' => null,
 ];

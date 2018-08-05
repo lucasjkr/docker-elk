@@ -1,0 +1,2 @@
+(crontab -l 2>/dev/null; echo "* * * * * root /usr/local/bin/php /var/www/411/bin/cron.php > /dev/null 2>&1 && /usr/local/bin/php /var/www/411/bin/worker.php > /dev/null 2>&1") | crontab -
+/etc/init.d/cron reload
