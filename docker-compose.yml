@@ -1,32 +1,20 @@
 version: '3'
 services:
+  ###
+  # Primary Services
+  ###
   elasticsearch:
     container_name: elasticsearch
     build:
       context: elasticsearch/
     volumes:
       - esdata:/usr/share/elasticsearch/data
-      - ./elasticsearch/config/elasticsearch-cluster.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     environment:
       ES_JAVA_OPTS: "-Xmx512m -Xms512m"
       HOSTNAME: "elasticsearch"
     networks:
       - elk
-
-  elasticsearch1:
-    container_name: elasticsearch1
-    build:
-      context: elasticsearch/
-    volumes:
-      - esdata1:/usr/share/elasticsearch/data
-      - ./elasticsearch/config/elasticsearch-cluster.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-    environment:
-      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
-      HOSTNAME: "elasticsearch1"
-    networks:
-      - elk
-    depends_on:
-      - elasticsearch
 
   logstash:
     container_name: logstash
@@ -73,7 +61,8 @@ services:
       - elk
     depends_on:
       - kibana
-      - fir
+      - fouroneone
+#      - fir
 
   metricbeat:
     container_name: metricbeat
@@ -93,12 +82,19 @@ services:
     depends_on:
       - elasticsearch
 
-  fir:
-    container_name: fir
+  fouroneone:
+    container_name: fouroneone
     build:
-      context: fir/
+      context: fouroneone/
     networks:
       - elk
+
+#  fir:
+#    container_name: fir
+#    build:
+#      context: fir/
+#    networks:
+#      - elk
 
 networks:
   elk:
