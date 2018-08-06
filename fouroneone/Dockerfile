@@ -7,8 +7,8 @@ RUN apt-get update && \
     git \
     libxml2-dev \
     libcurl4-openssl-dev \
-    sqlite3 \
-    libsqlite3-dev \
+    #sqlite3 \
+    #libsqlite3-dev \
     cron \
     supervisor
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
@@ -17,7 +17,7 @@ RUN docker-php-ext-configure \
 RUN docker-php-ext-install \
     xml \
     pdo_mysql \
-    pdo_sqlite \
+#    pdo_sqlite \
     mbstring \
     curl \
     pcntl
@@ -31,20 +31,24 @@ RUN COMPOSER=composer-es6x.json composer install --no-dev --optimize-autoloader
 RUN mkdir /data
 COPY config/411.conf /data/000-default.conf
 RUN ln -sf /data/000-default.conf /etc/apache2/sites-available/000-default.conf
-RUN sqlite3 /data/data.db < db.sql
-RUN ln -sf /data/data.db data.db
 
-COPY config/config.php /data/config.php
-RUN ln -sf /data/config.php config.php
+#RUN sqlite3 /data/data.db < db.sql
+#RUN ln -sf /data/data.db data.db
+
+#COPY config/config.php /data/config.php
+#RUN ln -sf /data/config.php config.php
+
+COPY config/config.php .
 
 COPY config/init.php .
-RUN php -f ./init.php
-RUN rm init.php
+#RUN php -f ./init.php
+#RUN rm init.php
+#Need to manually run Init after install
 
 RUN chmod ugo+rx -R /data
 RUN chown www-data:www-data -R /data
 
-VOLUME /data
+#VOLUME /data
 
 COPY config/supervisord.conf /root/supervisord.conf
 COPY config/mail.ini /usr/local/etc/php/conf.d/
@@ -54,9 +58,9 @@ COPY config/mail.ini /usr/local/etc/php/conf.d/
 #RUN touch /var/log/cron.log
 #RUN cat /root/411.cron | crontab -
 
-RUN printf '* * * * * root cd /var/www/411/bin && /usr/local/bin/php cron.php >> /var/log/cron.log 2>&1\n#' >> /root/crontab
-RUN printf '* * * * * root cd /var/www/411/bin && /usr/local/bin/php worker.php >> /var/log/cron.log 2>&1\n#' >> /root/crontab
-RUN touch /var/log/cron.log
+#RUN printf '* * * * * root cd /var/www/411/bin && /usr/local/bin/php cron.php >> /var/log/cron.log 2>&1\n#' >> /root/crontab
+#RUN printf '* * * * * root cd /var/www/411/bin && /usr/local/bin/php worker.php >> /var/log/cron.log 2>&1\n#' >> /root/crontab
+#RUN touch /var/log/cron.log
 
 
 EXPOSE 80

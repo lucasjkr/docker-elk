@@ -44,16 +44,20 @@ $config['db'] = [
      * SQLite is the default configuration but MySQL is also supported. To configure the latter,
      * you'll need a dsn like the following: 'mysql:host=localhost;dbname=fouroneone'.
      */
-    'dsn' => 'sqlite:' . realpath(__DIR__ . '/data.db'),
+    #'dsn' => 'sqlite:' . realpath(__DIR__ . '/data.db'),
+    'dsn' => 'mysql:host=mysql;dbname=fouroneone',
     /**
      * The user name for connecting to the database.
      */
-    'user' => 'root',
+    #'user' => 'root',
+    'user' => 'fouroneone',
+
     /**
      * The password for connecting to the database. Optional if the PDO driver doesn't
      * require a password.
      */
-    'pass' => null,
+    #'pass' => null,
+    'pass' => 'samplepw'
 ];
 /****
  *
