@@ -65,3 +65,29 @@ Log into Kibana with web browser and create initial index patterns for `metricbe
 `winlogbeat-6.3.2-*`
 
 Log into Metribeat container and load Kibana Dashboards:
+
+```
+docker exec -it metricbeat metricbeat setup --dashboards
+```
+
+*** Get Green Health with only 1 ES Node***
+
+Set the number of index replicas to zero:
+```
+PUT 411_alerts_1/_settings
+{
+  "index": {
+    "number_of_replicas" : 0
+  }
+}
+
+PUT metricbeat-6.3.2-2018-08/_settings
+{
+  "index": {
+    "number_of_replicas" : 0
+  }
+}
+
+etc
+
+```
