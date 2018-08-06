@@ -73,6 +73,9 @@ services:
     depends_on:
       - logstash
 
+###
+# Optional container for loading dashboards, etc
+###
   setup:
     container_name: setup
     build:
@@ -82,10 +85,29 @@ services:
     depends_on:
       - elasticsearch
 
+###
+# MySQL Database FIR and FourOneOne
+###
+  mysql:
+    container_name: mysql
+    build:
+      context: mysql/
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: fouroneone
+      MYSQL_USER: fouroneone
+      MYSQL_PASSWORD: samplepw
+    networks:
+      - elk
+    ports:
+      - "3306:3306"
+
   fouroneone:
     container_name: fouroneone
     build:
       context: fouroneone/
+    depends_on:
+      - mysql
     networks:
       - elk
 
