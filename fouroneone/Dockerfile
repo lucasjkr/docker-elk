@@ -48,9 +48,17 @@ VOLUME /data
 
 COPY config/supervisord.conf /root/supervisord.conf
 COPY config/mail.ini /usr/local/etc/php/conf.d/
-COPY config/411_cron /root/
 
-RUN /root/411_cron
+# Add CRON file
+#ADD config/411.cron /root/411.cron
+#RUN touch /var/log/cron.log
+#RUN cat /root/411.cron | crontab -
+
+RUN printf '* * * * * root cd /var/www/411/bin && /usr/local/bin/php cron.php >> /var/log/cron.log 2>&1\n#' >> /root/crontab
+RUN printf '* * * * * root cd /var/www/411/bin && /usr/local/bin/php worker.php >> /var/log/cron.log 2>&1\n#' >> /root/crontab
+RUN touch /var/log/cron.log
+
 
 EXPOSE 80
+
 CMD ["/usr/bin/supervisord", "-c", "/root/supervisord.conf"]
