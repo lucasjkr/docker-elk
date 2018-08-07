@@ -1,6 +1,8 @@
+#!/usr/bin/env php
 <?php
 
 require_once('phplib/411bootstrap.php');
+
 $newsite = new FOO\Site();
 $newsite['name'] = 'FourOneOne';
 $newsite['host'] = 'fouroneone';

@@ -3,21 +3,15 @@ FROM php:7-apache
 RUN apt-get update && \
     apt-get -y install \
     unzip \
-    nano \
     git \
     libxml2-dev \
-    libcurl4-openssl-dev \
-    sqlite3 \
-    libsqlite3-dev \
-    cron \
-    supervisor
+    libcurl4-openssl-dev
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 RUN docker-php-ext-configure \
     pdo_mysql --with-pdo-mysql=mysqlnd
 RUN docker-php-ext-install \
     xml \
     pdo_mysql \
-    pdo_sqlite \
     mbstring \
     curl \
     pcntl
@@ -31,34 +25,16 @@ RUN COMPOSER=composer-es6x.json composer install --no-dev --optimize-autoloader
 RUN mkdir /data
 COPY config/411.conf /data/000-default.conf
 RUN ln -sf /data/000-default.conf /etc/apache2/sites-available/000-default.conf
-RUN sqlite3 /data/data.db < db.sql
-RUN ln -sf /data/data.db data.db
 
-COPY config/config.php /data/config.php
-RUN ln -sf /data/config.php config.php
-
+COPY config/config.php .
 COPY config/init.php .
-RUN php -f ./init.php
-RUN rm init.php
 
 RUN chmod ugo+rx -R /data
 RUN chown www-data:www-data -R /data
 
-VOLUME /data
-
-COPY config/supervisord.conf /root/supervisord.conf
 COPY config/mail.ini /usr/local/etc/php/conf.d/
-
-# Add CRON file
-#ADD config/411.cron /root/411.cron
-#RUN touch /var/log/cron.log
-#RUN cat /root/411.cron | crontab -
-
-RUN printf '* * * * * root cd /var/www/411/bin && /usr/local/bin/php cron.php >> /var/log/cron.log 2>&1\n#' >> /root/crontab
-RUN printf '* * * * * root cd /var/www/411/bin && /usr/local/bin/php worker.php >> /var/log/cron.log 2>&1\n#' >> /root/crontab
-RUN touch /var/log/cron.log
-
+COPY config/411_cron /etc/cron.d/
 
 EXPOSE 80
 
-CMD ["/usr/bin/supervisord", "-c", "/root/supervisord.conf"]
+CMD /usr/local/bin/apache2-foreground

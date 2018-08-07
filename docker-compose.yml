@@ -61,8 +61,41 @@ services:
       - elk
     depends_on:
       - kibana
-      - fouroneone
+      - fouroneoneweb
 #      - fir
+
+  fouroneoneweb:
+    container_name: fouroneone
+    build: 411-web/
+    networks:
+      - elk
+    depends_on:
+      - mysql
+
+  fouroneonecron:
+    container_name: 411cron
+    build: 411-cron/
+    networks:
+      - elk
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: mysql
+    build:
+      context: Mysql/
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: fouroneone
+      MYSQL_USER: fouroneone
+      MYSQL_PASSWORD: fouroneone
+    networks:
+    - elk
+    volumes:
+    - ./MySQL/sql/db_mysql.sql:/docker-entrypoint-initdb.d/01-fouroneoned_db.sql:ro
+    ports:
+    - "3306:3306"
+
 
   metricbeat:
     container_name: metricbeat
@@ -82,12 +115,7 @@ services:
     depends_on:
       - elasticsearch
 
-  fouroneone:
-    container_name: fouroneone
-    build:
-      context: fouroneone/
-    networks:
-      - elk
+
 
 #  fir:
 #    container_name: fir
