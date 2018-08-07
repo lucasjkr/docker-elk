@@ -10,9 +10,9 @@ services:
     volumes:
       - esdata:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./elasticsearch/config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
     environment:
       ES_JAVA_OPTS: "-Xmx512m -Xms512m"
-      HOSTNAME: "elasticsearch"
     networks:
       - elk
 
@@ -115,8 +115,6 @@ services:
     depends_on:
       - elasticsearch
 
-
-
 #  fir:
 #    container_name: fir
 #    build:
@@ -130,4 +128,3 @@ networks:
 
 volumes:
   esdata:
-  esdata1:
