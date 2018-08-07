@@ -23,6 +23,7 @@ RUN apt-get install -y \
     cron
 RUN apt-get update && apt-get install -y \
     php7.2 \
+    php7.2-dev \
     php7.2-cgi \
     php7.2-cli \
     php7.2-common \
@@ -31,7 +32,10 @@ RUN apt-get update && apt-get install -y \
     #php7.2-imap \
     php7.2-mysql \
     #php7.2-intl \
-    php7.2-mbstring \
+    php7.2-mbstring
+
+RUN apt-get install -y \
+    php-pear \
     #php7.2-pspell \
     #php7.2-recode \
     php7.2-soap \
