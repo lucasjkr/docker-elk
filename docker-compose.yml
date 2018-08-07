@@ -82,6 +82,8 @@ services:
 
   mysql:
     container_name: mysql
+    build:
+      context: mysql/
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: fouroneone
