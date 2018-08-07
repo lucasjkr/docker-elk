@@ -115,12 +115,12 @@ services:
     depends_on:
       - elasticsearch
 
-#  fir:
-#    container_name: fir
-#    build:
-#      context: fir/
-#    networks:
-#      - elk
+  fir:
+    container_name: fir
+    build:
+      context: fir/
+    networks:
+      - elk
 
 networks:
   elk:
