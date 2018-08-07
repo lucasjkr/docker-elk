@@ -62,7 +62,7 @@ services:
     depends_on:
       - kibana
       - fouroneoneweb
-#      - fir
+      - fir
 
   fouroneoneweb:
     container_name: fouroneone
@@ -82,8 +82,6 @@ services:
 
   mysql:
     container_name: mysql
-    build:
-      context: Mysql/
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: fouroneone
@@ -92,7 +90,7 @@ services:
     networks:
     - elk
     volumes:
-    - ./MySQL/sql/db_mysql.sql:/docker-entrypoint-initdb.d/01-fouroneoned_db.sql:ro
+    - ./mysql/sql/db_mysql.sql:/docker-entrypoint-initdb.d/01-fouroneoned_db.sql:ro
     ports:
     - "3306:3306"
 
