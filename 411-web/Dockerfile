@@ -18,6 +18,11 @@ RUN docker-php-ext-install \
 
 RUN a2enmod headers rewrite
 
+WORKDIR /
+COPY cron-entrypoint.sh .
+COPY apache2-foreground.sh .
+RUN chmod 755 *.sh
+
 WORKDIR /var/www/411
 #RUN curl -L https://github.com/etsy/411/releases/download/v1.5.0/release.tgz | tar xz
 COPY source/etsy_411-1.5.0.tgz .
