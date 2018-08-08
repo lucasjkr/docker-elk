@@ -69,24 +69,32 @@ services:
       - elk
     depends_on:
       - kibana
-      - fouroneoneweb
+      - fouroneone
       - fir
 
-  fouroneoneweb:
+  fouroneone:
     container_name: fouroneone
     build: 411-web/
+    volumes:
+      - ./411-web/apache2-foreground.sh:/usr/local/bin/entrypoint.sh:ro
     networks:
       - elk
+    command:
+      - entrypoint.sh
     depends_on:
       - mysql
 
   fouroneonecron:
-    container_name: 411cron
-    build: 411-cron/
+    container_name: fouroneonecron
+    build: 411-web/
+    volumes:
+      - ./411-web/cron-entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
     networks:
-      - elk
+    - elk
+    command:
+    - entrypoint.sh
     depends_on:
-      - fouroneoneweb
+    - mysql
 
   mysql:
     container_name: mysql

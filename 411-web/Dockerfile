@@ -39,4 +39,4 @@ COPY config/411_cron /etc/cron.d/
 
 EXPOSE 80
 
-CMD /usr/local/bin/apache2-foreground
+#CMD /usr/local/bin/apache2-foreground
