@@ -1,4 +1,14 @@
 version: '3'
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  esdata:
+  composer:
+  411data:
+
 services:
   ###
   # Primary Services
@@ -71,6 +81,9 @@ services:
       - elk
     depends_on:
       - mysql
+    volumes:
+      - ./composer:/root/.composer/
+      - ./411data:/var/www/411/
 
   fouroneonecron:
     container_name: 411cron
@@ -78,7 +91,10 @@ services:
     networks:
       - elk
     depends_on:
-      - mysql
+      - fouroneoneweb
+    volumes:
+      - ./composer:/root/.composer/
+      - ./411data:/var/www/411/
 
   mysql:
     container_name: mysql
@@ -121,10 +137,3 @@ services:
       context: fir/
     networks:
       - elk
-
-networks:
-  elk:
-    driver: bridge
-
-volumes:
-  esdata:
