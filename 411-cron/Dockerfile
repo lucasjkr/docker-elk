@@ -1,5 +1,6 @@
 #FROM php:7-apache
-FROM debian:jessie-slim
+#FROM debian:jessie-slim #363 MB
+FROM ubuntu:18.04
 
 RUN apt-get update
 RUN apt-get upgrade
@@ -7,20 +8,24 @@ RUN apt-get install -y \
         ca-certificates \
         apt-transport-https \
         software-properties-common \
-        python-software-properties \
+#        python-software-properties \
         wget
-
-RUN wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
-RUN echo "deb https://packages.sury.org/php/ jessie main" | tee /etc/apt/sources.list.d/php.list
 
 RUN apt-get update
 RUN apt-get install -y \
     curl \
     unzip \
     git \
-    libxml2-dev \
     libcurl4-openssl-dev \
-    cron
+    cron \
+    dialog \
+    apt-utils
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -q tzdata
+RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+RUN dpkg-reconfigure --frontend noninteractive tzdata
+
+
 RUN apt-get update && apt-get install -y \
     php7.2 \
     php7.2-dev \
@@ -32,9 +37,7 @@ RUN apt-get update && apt-get install -y \
     #php7.2-imap \
     php7.2-mysql \
     #php7.2-intl \
-    php7.2-mbstring
-
-RUN apt-get install -y \
+    php7.2-mbstring \
     php-pear \
     #php7.2-pspell \
     #php7.2-recode \
