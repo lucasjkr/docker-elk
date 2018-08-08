@@ -19,7 +19,9 @@ RUN docker-php-ext-install \
 RUN a2enmod headers rewrite
 
 WORKDIR /var/www/411
-RUN curl -L https://github.com/etsy/411/releases/download/v1.5.0/release.tgz | tar xz
+#RUN curl -L https://github.com/etsy/411/releases/download/v1.5.0/release.tgz | tar xz
+COPY source/etsy_411-1.5.0.tgz .
+RUN tar xvfz etsy_411-1.5.0.tgz
 RUN COMPOSER=composer-es6x.json composer install --no-dev --optimize-autoloader
 
 RUN mkdir /data

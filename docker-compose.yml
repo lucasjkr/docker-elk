@@ -1,4 +1,4 @@
-version: '3'
+version: '3.0'
 
 networks:
   elk:
@@ -6,8 +6,6 @@ networks:
 
 volumes:
   esdata:
-  composer:
-  411data:
 
 services:
   ###
@@ -81,9 +79,6 @@ services:
       - elk
     depends_on:
       - mysql
-    volumes:
-      - ./composer:/root/.composer/
-      - ./411data:/var/www/411/
 
   fouroneonecron:
     container_name: 411cron
@@ -92,9 +87,6 @@ services:
       - elk
     depends_on:
       - fouroneoneweb
-    volumes:
-      - ./composer:/root/.composer/
-      - ./411data:/var/www/411/
 
   mysql:
     container_name: mysql
@@ -111,7 +103,6 @@ services:
     - ./mysql/sql/db_mysql.sql:/docker-entrypoint-initdb.d/01-fouroneoned_db.sql:ro
     ports:
     - "3306:3306"
-
 
   metricbeat:
     container_name: metricbeat
