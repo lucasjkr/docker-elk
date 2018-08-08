@@ -75,24 +75,20 @@ services:
   fouroneone:
     container_name: fouroneone
     build: 411-web/
-    volumes:
-      - ./411-web/apache2-foreground.sh:/usr/local/bin/entrypoint.sh:ro
     networks:
       - elk
     command:
-      - entrypoint.sh
+      - /apache2-foreground.sh
     depends_on:
       - mysql
 
   fouroneonecron:
     container_name: fouroneonecron
     build: 411-web/
-    volumes:
-      - ./411-web/cron-entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
     networks:
     - elk
     command:
-    - entrypoint.sh
+    - /cron-entrypoint.sh
     depends_on:
     - mysql
 
