@@ -187,7 +187,6 @@ MARKDOWN_SAFE_MODE = True
 
 ALLOWED_HOSTS = ["*"]
 
-
 # Allowed HTML tags in Markdown output (requires MARKDOWN_SAFE_MODE to be True)
 MARKDOWN_ALLOWED_TAGS = [
     'a',

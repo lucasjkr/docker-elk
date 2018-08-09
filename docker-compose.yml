@@ -104,7 +104,8 @@ services:
     networks:
     - elk
     volumes:
-    - ./mysql/sql/db_mysql.sql:/docker-entrypoint-initdb.d/01-fouroneoned_db.sql:ro
+    - ./mysql/sql/01_create_411_database.sql:/docker-entrypoint-initdb.d/01_create_411_database.sql:ro
+    - ./mysql/sql/02_create_fir_db.sh:/docker-entrypoint-initdb.d/02_create_fir_db.sh:ro
     ports:
     - "3306:3306"
 

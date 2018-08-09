@@ -41,10 +41,15 @@ RUN git clone https://github.com/certsocietegenerale/FIR.git && \
     pip install -r requirements.txt && \
     cp fir/config/installed_apps.txt.sample fir/config/installed_apps.txt
 
+RUN apk add py3-pymysql
+
 USER fir
 
 # Add FIR settings (base.py)
+COPY config/__init__.py /app/FIR/fir/config/__init__.py
 COPY config/base.py /app/FIR/fir/config/base.py
+COPY config/production.py /app/FIR/fir/config/production.py
+
 #RUN chmod 755 /app/FIR/fir/config/base.py
 #RUN chown fir:fir /app/FIR/fir/config/base.py
 
