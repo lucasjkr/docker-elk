@@ -117,15 +117,6 @@ services:
     depends_on:
       - logstash
 
-  setup:
-    container_name: setup
-    build:
-      context: setup/
-    networks:
-      - elk
-    depends_on:
-      - elasticsearch
-
   fir:
     container_name: fir
     build:
