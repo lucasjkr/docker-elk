@@ -37,7 +37,9 @@ cd docker-elk
 
 If you have your own keys/certificates already, you can just place them in the `/opt` directory inside the repository - just follow the naming convention in `generate.sh`.
 
-**NOTE** The containers aren't actually using SSL anywhere yet, that feature will come very soon though.
+**NOTE** Nginx connections are encrypted with SSL, but are still available for anyone to log into. 
+Therefore, firewall settings must be enforced to limit access; this will change in the future.
+Also note, other containers (specifically, logstash) aren't actually using SSL anywhere yet, that feature will come very soon though.
 
 
 #### Adjust virtual memory settings
@@ -67,25 +69,26 @@ vm.max_map_count=262144
 docker-compose up
 ```
 
-**Initialize Etsy/411**
+#####Initialize Etsy/411
 ```
 docker exec fouroneone php -f init.php
 ```
-* Note - this gives you admin/admin as the username/password; this needs to be changed!
+**Note:** this gives you admin/admin as the username/password; this needs to be changed!
 
-
-**Load metribeat Index Template into Elasticsearch**
-
+#####Load metribeat Index Template into Elasticsearch
+```
 docker exec metricbeat metricbeat setup --template -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["elasticsearch:9200"]'
+```
 
-**Load metribeat Dashboards into Kibana**
-
+#####Load metribeat Dashboards into Kibana
+```
 docker exec metricbeat metricbeat setup --dashboards
+```
 
-**Delete old metricbeat data**
-
+#####Delete old metricbeat data
+```
 docker exec elasticsearch curl -XDELETE 'http://elasticsearch:9200/metricbeat-*'
-
+```
 
 
 
