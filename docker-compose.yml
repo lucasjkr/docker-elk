@@ -69,8 +69,6 @@ services:
       - elk
     depends_on:
       - kibana
-      - fouroneone
-      - fir
 
   fouroneone:
     container_name: fouroneone
@@ -86,11 +84,11 @@ services:
     container_name: fouroneonecron
     build: 411-web/
     networks:
-    - elk
+      - elk
     command:
-    - /cron-entrypoint.sh
+      - /cron-entrypoint.sh
     depends_on:
-    - mysql
+      - mysql
 
   mysql:
     container_name: mysql
@@ -98,16 +96,12 @@ services:
       context: mysql/
     environment:
       MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: fouroneone
-      MYSQL_USER: fouroneone
-      MYSQL_PASSWORD: fouroneone
     networks:
-    - elk
+      - elk
     volumes:
-    - ./mysql/sql/01_create_411_database.sql:/docker-entrypoint-initdb.d/01_create_411_database.sql:ro
-    - ./mysql/sql/02_create_fir_db.sh:/docker-entrypoint-initdb.d/02_create_fir_db.sh:ro
+      - ./mysql/sql:/docker-entrypoint-initdb.d:ro
     ports:
-    - "3306:3306"
+      - "3306:3306"
 
   metricbeat:
     container_name: metricbeat
@@ -118,9 +112,3 @@ services:
     depends_on:
       - logstash
 
-  fir:
-    container_name: fir
-    build:
-      context: fir/
-    networks:
-      - elk
