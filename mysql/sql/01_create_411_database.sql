@@ -1,3 +1,4 @@
+USE fouroneone
 DROP TABLE IF EXISTS `alert_logs`;
 CREATE TABLE `alert_logs` (
     `log_id` bigint(20) unsigned AUTO_INCREMENT NOT NULL,
