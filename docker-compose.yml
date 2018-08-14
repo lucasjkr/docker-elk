@@ -49,16 +49,6 @@ services:
     depends_on:
       - elasticsearch
 
-#  fpm:
-#    container_name: fpm
-#    image: php:fpm
-#    ports:
-#        - "9000:9000"
-#    networks:
-#      - elk
-#    volumes:
-#      - handesk:/var/www/handesk
-
   nginx:
     container_name: nginx
     build:
