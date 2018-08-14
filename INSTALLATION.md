@@ -69,6 +69,11 @@ vm.max_map_count=262144
 docker-compose up
 ```
 
+####Create Handesk Database
+```
+docker exec handesk php artisan migrate
+```
+
 #####Initialize Etsy/411
 ```
 docker exec fouroneone php -f init.php

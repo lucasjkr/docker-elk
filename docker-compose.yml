@@ -1,5 +1,4 @@
 version: '3.0'
-
 networks:
   elk:
     driver: bridge
@@ -8,9 +7,6 @@ volumes:
   esdata:
 
 services:
-  ###
-  # Primary Services
-  ###
   elasticsearch:
     container_name: elasticsearch
     build:
@@ -53,12 +49,20 @@ services:
     depends_on:
       - elasticsearch
 
+#  fpm:
+#    container_name: fpm
+#    image: php:fpm
+#    ports:
+#        - "9000:9000"
+#    networks:
+#      - elk
+#    volumes:
+#      - handesk:/var/www/handesk
+
   nginx:
     container_name: nginx
     build:
       context: nginx/
-    environment:
-      - APPLICATION_URL=http://docker.local
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d:ro
       - ./opt/:/etc/nginx/certs:ro
@@ -69,6 +73,9 @@ services:
       - elk
     depends_on:
       - kibana
+      - handesk
+      - fouroneone
+
 
   fouroneone:
     container_name: fouroneone
@@ -112,3 +119,13 @@ services:
     depends_on:
       - logstash
 
+  handesk:
+    container_name: handesk
+    build:
+      context: handesk/
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    depends_on:
+      - mysql
+    networks:
+      - elk
