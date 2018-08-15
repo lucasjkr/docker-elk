@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     	&& rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y \
-    apache2 \
+#    apache2 \
     php7.2 \
     php7.2-curl \
     php7.2-common \
@@ -19,11 +19,11 @@ RUN apt-get update && apt-get install -y \
     php7.2-zip \
     git
 
-RUN apt-get install libapache2-mod-php7.2
+#RUN apt-get install libapache2-mod-php7.2
 
-RUN a2enmod php7.2 rewrite
+#RUN a2enmod php7.2 rewrite
 
-RUN service apache2 restart
+#RUN service apache2 restart
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 RUN php composer-setup.php \
@@ -40,26 +40,36 @@ RUN git clone https://github.com/BadChoice/handesk.git html
 
 WORKDIR /var/www/html
 RUN git checkout master
+RUN composer install
+RUN composer require fideloper/proxy:~3.0
+COPY config/handesk.env .env
+
+#COPY blades/app.blade.php /var/www/html/resources/views/layouts/app.blade.php
+#COPY blades/requester.blade.php /var/www/html/resources/views/layouts/requester.blade.php
+#COPY blades/auth-layout.blade.php /var/www/html/resources/views/auth/layout.blade.php
+#COPY blades/login.blade.php /var/www/html/resources/views/layouts/auth/login.blade.php
+
+RUN php artisan key:generate
+#RUN php artisan view:clear
+
+#COPY middleware/TrustProxies.php /var/www/html/app/Http/Middleware/TrustProxies.php
+#COPY middleware/Kernel.php /var/www/html/app/Http/Kernel.php
 
 RUN chmod -R 777 /var/www/html/storage
 RUN chmod -R 777 /var/www/html/storage/app
 RUN chmod -R 777 /var/www/html/storage/framework
 RUN chmod -R 777 /var/www/html/storage/logs
-COPY config/handesk.env .env
 
-RUN composer install
+#COPY config/.htaccess /var/www/html/public/.htaccess
+RUN apt-get -y install nano
 
-RUN php artisan key:generate
+#COPY config/handesk.conf /etc/apache2/sites-available/000-default.conf
+#COPY apache2-foreground.sh /apache2-foreground.sh
 
-COPY config/.htaccess /var/www/html/public/.htaccess
-
-COPY config/handesk.conf /etc/apache2/sites-available/000-default.conf
-COPY apache2-foreground.sh /apache2-foreground.sh
-
-#RUN php artisan optimize
+RUN php artisan optimize
 
 RUN echo "Completed installation, exiting so that Nginx and PHP-FPM can take over"
-EXPOSE 80
+#EXPOSE 80
 
-USER root
-CMD /apache2-foreground.sh
+#USER root
+#CMD /apache2-foreground.sh
