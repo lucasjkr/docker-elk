@@ -1,5 +1,7 @@
 # https://github.com/elastic/logstash-docker
-FROM docker.elastic.co/logstash/logstash:6.3.2
+#FROM docker.elastic.co/logstash/logstash-oss:6.3.2
+FROM docker.elastic.co/logstash/logstash-oss:6.3.2
+
 
 # Add SSL/TLS Certificates
 #COPY tls/cert/logstash-forwarder.crt /etc/pki/certs/logstash-forwarder.crt
