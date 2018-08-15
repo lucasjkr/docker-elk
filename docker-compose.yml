@@ -5,6 +5,7 @@ networks:
 
 volumes:
   esdata:
+  handesk:
 
 services:
   elasticsearch:
@@ -56,6 +57,7 @@ services:
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d:ro
       - ./opt/:/etc/nginx/certs:ro
+      - handesk:/var/www/html
     ports:
       - "80:80"
       - "443:443"
@@ -65,6 +67,7 @@ services:
       - kibana
       - handesk
       - fouroneone
+      - php
 
 
   fouroneone:
@@ -119,3 +122,17 @@ services:
       - mysql
     networks:
       - elk
+    volumes:
+      - handesk:/var/www/html
+
+  php:
+    container_name: php
+    build:
+      context: php/
+      dockerfile: Dockerfile
+    networks:
+      - elk
+    links:
+      - mysql
+    volumes:
+      - handesk:/var/www/html
