@@ -12,12 +12,13 @@ services:
     container_name: elasticsearch
     build:
       context: elasticsearch/
+    environment:
+#      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+      ES_JAVA_OPTS:   "-Xmx${ES_RAM}m -Xms${ES_RAM}m"
     volumes:
       - esdata:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./elasticsearch/config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
-    environment:
-      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
     networks:
       - elk
 
@@ -33,7 +34,8 @@ services:
       - "5044:5044"
       - "5045:5045"
     environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+#      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      LS_JAVA_OPTS: "-Xmx${LS_RAM}m -Xms${LS_RAM}m"
     networks:
       - elk
     depends_on:
@@ -69,7 +71,6 @@ services:
       - fouroneone
       - php
 
-
   fouroneone:
     container_name: fouroneone
     build: 411-web/
@@ -95,7 +96,7 @@ services:
     build:
       context: mysql/
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - elk
     volumes:
@@ -117,7 +118,7 @@ services:
     build:
       context: handesk/
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     depends_on:
       - mysql
     networks:
