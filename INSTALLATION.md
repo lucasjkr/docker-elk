@@ -95,15 +95,16 @@ docker exec metricbeat metricbeat setup --dashboards
 docker exec elasticsearch curl -XDELETE 'http://elasticsearch:9200/metricbeat-*'
 ```
 
-
-
-
-**Install Templates, Dashboards, etc**
+##### Install Winlogbbeat Template
 ```
-docker exec -it elasticsearch /bin/bash
-./install-templates.sh
-
+docker exec elasticsearch curl -XPUT -H 'Content-Type: application/json' http://elasticsearch:9200/_template/winlogbeat-6.3.2 -d@templates/winlogbeat.template.json
 ```
+
+#####Delete old Winlogbeat Data
+```
+docker exec elasticsearch curl -XDELETE 'http://elasticsearch:9200/winlogbeat-*'
+```
+
 
 
 **Post Installation**

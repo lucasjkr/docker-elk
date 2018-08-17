@@ -20,6 +20,7 @@ services:
       ES_JAVA_OPTS:   "-Xmx${ES_RAM}m -Xms${ES_RAM}m"
     volumes:
       - esdata:/usr/share/elasticsearch/data
+      - ./elasticsearch/templates/winlogbeat.template.json:/usr/share/elasticsearch/templates/winlogbeat.template.json:ro
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./elasticsearch/config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
     networks:
