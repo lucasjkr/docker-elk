@@ -8,6 +8,9 @@ volumes:
   handesk:
 
 services:
+#===============================================================================#
+# ELK Stack                                                                     #
+#===============================================================================#
   elasticsearch:
     container_name: elasticsearch
     build:
@@ -52,6 +55,21 @@ services:
     depends_on:
       - elasticsearch
 
+#===============================================================================#
+# Used for loading initial index templates, dashboards, also provides monitoring#
+#===============================================================================#
+  metricbeat:
+    container_name: metricbeat
+    build:
+      context: metricbeat/
+    networks:
+      - elk
+    depends_on:
+      - logstash
+
+#===============================================================================#
+# Nginx, provides SSL, Reverse Proxy for Kibana, 411, serves Handesk            #
+#===============================================================================#
   nginx:
     container_name: nginx
     build:
@@ -71,6 +89,12 @@ services:
       - fouroneone
       - php
 
+#===============================================================================#
+# Etsy/411 for Alerting                                                         #
+#===============================================================================#
+# 1 - Web Admin UI                                                              #
+# 2 - Scheduled Job Runner                                                      #
+#-------------------------------------------------------------------------------#
   fouroneone:
     container_name: fouroneone
     build: 411-web/
@@ -91,6 +115,12 @@ services:
     depends_on:
       - mysql
 
+#===============================================================================#
+# MariaDB (MySQL compatible)                                                    #
+#===============================================================================#
+# 1 - 411 Database                                                              #
+# 2 - Handesk Database                                                          #
+#-------------------------------------------------------------------------------#
   mysql:
     container_name: mysql
     build:
@@ -104,14 +134,6 @@ services:
     ports:
       - "3306:3306"
 
-  metricbeat:
-    container_name: metricbeat
-    build:
-      context: metricbeat/
-    networks:
-      - elk
-    depends_on:
-      - logstash
 
   handesk:
     container_name: handesk
