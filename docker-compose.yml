@@ -37,6 +37,7 @@ services:
       - "5000:5000"
       - "5044:5044"
       - "5045:5045"
+      - "5046:5046"
     environment:
 #      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
       LS_JAVA_OPTS: "-Xmx${LS_RAM}m -Xms${LS_RAM}m"
