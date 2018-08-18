@@ -78,19 +78,19 @@ docker exec handesk php artisan migrate
 ```
 docker exec fouroneone php -f init.php
 ```
-**Note:** this gives you admin/admin as the username/password; this needs to be changed!
 
-#####Load metribeat Index Template into Elasticsearch
+
+#### Load metribeat Index Template into Elasticsearch
 ```
 docker exec metricbeat metricbeat setup --template -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["elasticsearch:9200"]'
 ```
 
-#####Load metribeat Dashboards into Kibana
+#### Load metribeat Dashboards into Kibana
 ```
 docker exec metricbeat metricbeat setup --dashboards
 ```
 
-#####Delete old metricbeat data
+#### Delete old metricbeat data
 ```
 docker exec elasticsearch curl -XDELETE 'http://elasticsearch:9200/metricbeat-*'
 ```
@@ -102,26 +102,34 @@ docker exec elasticsearch curl -XPUT -H 'Content-Type: application/json' \
     -d@templates/winlogbeat.template.json
 ```
 
-#####Delete old Winlogbeat Data
+#### Delete old Winlogbeat Data
 ```
 docker exec elasticsearch curl -XDELETE 'http://elasticsearch:9200/winlogbeat-*'
 ```
 
 
 
-**Post Installation**
 
+## Post Installation
+
+### Default Passwords 
+At the very least, you'll need to want to change the following default passwords:
+
+**411**
+
+admin/admin
+
+
+**Handesk**
+
+admin@admin.com / admin
+
+### Index Pattern Creation
 Log into Kibana with web browser and create initial index patterns for `metricbeat-6.3.2-*` and
 `winlogbeat-6.3.2-*`
 
-Log into Metribeat container and load Kibana Dashboards:
 
-```
-docker exec -it metricbeat metricbeat setup --dashboards
-```
-
-*** Get Green Health with only 1 ES Node***
-
+### "Fix" for single-node ES instance
 Set the number of index replicas to zero:
 ```
 PUT 411_alerts_1/_settings
