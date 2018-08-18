@@ -69,12 +69,12 @@ vm.max_map_count=262144
 docker-compose up
 ```
 
-####Create Handesk Database
+### Create Handesk Database
 ```
 docker exec handesk php artisan migrate
 ```
 
-#####Initialize Etsy/411
+#### Initialize Etsy/411
 ```
 docker exec fouroneone php -f init.php
 ```
@@ -82,7 +82,8 @@ docker exec fouroneone php -f init.php
 
 #### Load metribeat Index Template into Elasticsearch
 ```
-docker exec metricbeat metricbeat setup --template -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["elasticsearch:9200"]'
+docker exec metricbeat metricbeasetup --template -E output.logstash.enabled=false \
+    -E 'output.elasticsearch.hosts=["elasticsearch:9200"]'
 ```
 
 #### Load metribeat Dashboards into Kibana
