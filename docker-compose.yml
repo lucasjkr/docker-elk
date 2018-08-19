@@ -31,6 +31,8 @@ services:
     build:
       context: logstash/
     volumes:
+    # Temporary, til I figure out a process to download new databases weekly
+      - ./logstash/maxmind/GeoLite2-City_20180807:/etc/maxmind:ro
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
     ports:
@@ -43,8 +45,8 @@ services:
       LS_JAVA_OPTS: "-Xmx${LS_RAM}m -Xms${LS_RAM}m"
     networks:
       - elk
-    depends_on:
-      - elasticsearch
+#    depends_on:
+#      - elasticsearch
 
   kibana:
     container_name: kibana
