@@ -6,7 +6,7 @@ This is Docker, so it should be portable. However, I have only tested the host o
 
 Standard install, with OpenSSH Server, Docker-CE, and Docker Compose.
 
-##Pre-Installation
+## Pre-Installation
 
 #### DNS Entries
 
@@ -82,7 +82,7 @@ docker exec fouroneone php -f init.php
 
 #### Load metribeat Index Template into Elasticsearch
 ```
-docker exec metricbeat metricbeasetup --template -E output.logstash.enabled=false \
+docker exec metricbeat metricbeat setup --template -E output.logstash.enabled=false \
     -E 'output.elasticsearch.hosts=["elasticsearch:9200"]'
 ```
 
