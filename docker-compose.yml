@@ -6,6 +6,7 @@ networks:
 volumes:
   esdata:
   handesk:
+  portainer:
 
 services:
 #===============================================================================#
@@ -163,3 +164,15 @@ services:
       - mysql
     volumes:
       - handesk:/var/www/html
+
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer
+    ports:
+      - "9000:9000"
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
+
