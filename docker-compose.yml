@@ -88,6 +88,7 @@ services:
       - kibana
       - handesk
       - fouroneone
+      - portainer
       - php
 
 #===============================================================================#
@@ -163,12 +164,13 @@ services:
 
 
   portainer:
-    container_name: portainer
     image: portainer/portainer
+    container_name: portainer
     ports:
       - "9000:9000"
     command: -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer:/data
-
+    networks:
+      - elk
