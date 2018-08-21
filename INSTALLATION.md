@@ -42,6 +42,18 @@ Therefore, firewall settings must be enforced to limit access; this will change 
 Also note, other containers (specifically, logstash) aren't actually using SSL anywhere yet, that feature will come very soon though.
 
 
+#### Create Usernames and Passwords for Kibana
+
+Currently using basic authentication over SSL, so enter the following two commands
+and enter your password where prompted:
+
+```
+bash -c "echo -n 'sammy:' >> ./opt/nginx.users"
+bash -c "openssl passwd -apr1 >> ./opt/nginx.users"
+
+```
+
+
 #### Adjust virtual memory settings
 
 **Temporary fix:**

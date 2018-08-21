@@ -4,3 +4,4 @@
 nginx-selfsigned.crt
 nginx-selfsigned.key
 .env
+opt/nginx.users
