@@ -6,21 +6,7 @@ This is Docker, so it should be portable. However, I have only tested the host o
 
 Standard install, with OpenSSH Server, Docker-CE, and Docker Compose.
 
-## Pre-Installation
-
-#### DNS Entries
-
-If you don't have access to a DNS Server on your network and don't want to add A records to your TLD, you can still get by by adding the following entries to the `hosts` file of whichever machines will be accessing the setup.
-
-Take note of your machines IP Address (example: 10.1.10.201) and edit `/etc/hosts` to add the following entries;
-
-```
-10.1.10.201      logstash.your.domain
-10.1.10.201      kibana.your.domain
-10.1.10.201      fir.your.domain
-10.1.10.201      411.your.domain
-
-```
+## Pre-Installation Tasks (on the host!)
 
 #### Clone the Git Repository
 
@@ -75,8 +61,22 @@ Append the following lines to you `/etc/sysctl.conf`
 vm.max_map_count=262144
 ```
 
+#### DNS Entries
 
-##Bring up the Service for the First Time
+If you don't have access to a DNS Server on your network and don't want to add A records to your TLD, you can still get by by adding the following entries to the `hosts` file of whichever machines will be accessing the setup.
+
+Take note of your machines IP Address (example: 10.1.10.201) and edit `/etc/hosts` to add the following entries;
+
+```
+10.1.10.201      logstash.your.domain
+10.1.10.201      kibana.your.domain
+10.1.10.201      fir.your.domain
+10.1.10.201      411.your.domain
+
+```
+
+
+## Bring up the Service for the First Time
 ```
 docker-compose up
 ```
