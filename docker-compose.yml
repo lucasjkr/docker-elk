@@ -64,8 +64,6 @@ services:
       context: metricbeat/
     networks:
       - elk
-    depends_on:
-      - logstash
 
 #===============================================================================#
 # Nginx, provides SSL, Reverse Proxy for Kibana, 411, serves Handesk            #
