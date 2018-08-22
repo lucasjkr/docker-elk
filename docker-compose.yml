@@ -32,10 +32,12 @@ services:
     build:
       context: logstash/
     volumes:
-    # Temporary, til I figure out a process to download new databases weekly
-      - ./logstash/maxmind/GeoLite2-City_20180807:/etc/maxmind:ro
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./opt/logstash-forwarder.crt:/etc/logstash/pki/logstash-forwarder.crt:ro
+      - ./opt/logstash-forwarder.key:/etc/logstash/pki/logstash-forwarder.key:ro
+        # Temporary, til I figure out a process to download new databases weekly
+      - ./logstash/maxmind/GeoLite2-City_20180807:/etc/maxmind:ro
     ports:
       - "5044:5044"
       - "5045:5045"
