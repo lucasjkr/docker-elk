@@ -69,6 +69,7 @@ services:
       context: metricbeat/
     networks:
       - elk
+    restart: unless-stopped
 
 #===============================================================================#
 # Nginx, provides SSL, Reverse Proxy for Kibana, 411, serves Handesk            #
