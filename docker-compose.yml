@@ -7,6 +7,7 @@ volumes:
   esdata:
   handesk:
   portainer:
+  mysql:
 
 services:
 #===============================================================================#
@@ -135,6 +136,7 @@ services:
       - elk
     volumes:
       - ./mysql/sql:/docker-entrypoint-initdb.d:ro
+      - mysql:/var/lib/mysql
     ports:
       - "3306:3306"
 
