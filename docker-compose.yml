@@ -14,8 +14,9 @@ services:
 #===============================================================================#
   elasticsearch:
     container_name: elasticsearch
-    build:
-      context: elasticsearch/
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.2
+#    build:
+#      context: elasticsearch/
     environment:
 #      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
       ES_JAVA_OPTS:   "-Xmx${ES_RAM}m -Xms${ES_RAM}m"
@@ -50,8 +51,9 @@ services:
 
   kibana:
     container_name: kibana
-    build:
-      context: kibana/
+    image: docker.elastic.co/kibana/kibana-oss:6.3.2
+#    build:
+#      context: kibana/
     volumes:
       - ./kibana/config/:/usr/share/kibana/config:ro
     networks:
