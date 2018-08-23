@@ -129,8 +129,9 @@ services:
 #-------------------------------------------------------------------------------#
   mysql:
     container_name: mysql
-    build:
-      context: mysql/
+    image: mariadb:10.3.8-bionic
+#    build:
+#      context: mysql/
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
