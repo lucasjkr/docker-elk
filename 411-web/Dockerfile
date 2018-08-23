@@ -6,10 +6,9 @@ RUN apt-get update && \
     git \
     libxml2-dev \
     libcurl4-openssl-dev
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 RUN docker-php-ext-configure \
-    pdo_mysql --with-pdo-mysql=mysqlnd
-RUN docker-php-ext-install \
+    pdo_mysql --with-pdo-mysql=mysqlnd && \
+    docker-php-ext-install \
     xml \
     pdo_mysql \
     mbstring \
@@ -25,19 +24,13 @@ RUN chmod 755 *.sh
 
 WORKDIR /var/www/411
 COPY source/etsy_411-1.5.0.tgz .
-RUN tar xvfz etsy_411-1.5.0.tgz
-RUN COMPOSER=composer-es6x.json composer install --no-dev --optimize-autoloader
+RUN tar xvfz etsy_411-1.5.0.tgz && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
+    COMPOSER=composer-es6x.json composer install --no-dev --optimize-autoloader
 
-RUN mkdir /data
-COPY config/411.conf /data/000-default.conf
-RUN ln -sf /data/000-default.conf /etc/apache2/sites-available/000-default.conf
-
+COPY config/411.conf /etc/apache2/sites-available/000-default.conf
 COPY config/config.php .
 COPY config/init.php .
-
-RUN chmod ugo+rx -R /data
-RUN chown www-data:www-data -R /data
-
 COPY config/mail.ini /usr/local/etc/php/conf.d/
 COPY config/411_cron /etc/cron.d/
 
