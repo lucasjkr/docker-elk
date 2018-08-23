@@ -14,6 +14,8 @@ RUN docker-php-ext-configure \
     mbstring \
     curl \
     pcntl
+RUN  apt-get clean && \
+     rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
 RUN a2enmod headers rewrite
 
@@ -28,12 +30,13 @@ RUN tar xvfz etsy_411-1.5.0.tgz && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
     COMPOSER=composer-es6x.json composer install --no-dev --optimize-autoloader
 
-COPY config/411.conf /etc/apache2/sites-available/000-default.conf
-COPY config/config.php .
-COPY config/init.php .
-COPY config/mail.ini /usr/local/etc/php/conf.d/
-COPY config/411_cron /etc/cron.d/
+WORKDIR /tmp
+COPY config/* ./
+RUN mv /tmp/411.conf /etc/apache2/sites-available/000-default.conf && \
+    mv /tmp/config.php /var/www/411/config.php && \
+    mv /tmp/init.php /var/www/411/init.php && \
+    mv /tmp/mail.ini /usr/local/etc/php/conf.d/mail.ini
+
+WORKDIR /var/www/411
 
 EXPOSE 80
-
-#CMD /usr/local/bin/apache2-foreground
