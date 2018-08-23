@@ -81,17 +81,6 @@ Take note of your machines IP Address (example: 10.1.10.201) and edit `/etc/host
 docker-compose up
 ```
 
-### Create Handesk Database
-```
-docker exec handesk php artisan migrate
-```
-
-#### Initialize Etsy/411
-```
-docker exec fouroneone php -f init.php
-```
-
-
 #### Load metribeat Index Template into Elasticsearch
 ```
 docker exec metricbeat metricbeat setup --template -E output.logstash.enabled=false \
@@ -161,4 +150,20 @@ PUT metricbeat-6.3.2-2018-08/_settings
 
 etc
 
+```
+
+
+
+
+
+## Steps removed from the process
+
+### Create Handesk Database
+```
+docker exec handesk php artisan migrate
+```
+
+#### Initialize Etsy/411
+```
+docker exec fouroneone php -f init.php
 ```
