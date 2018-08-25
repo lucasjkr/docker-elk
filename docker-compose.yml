@@ -105,6 +105,11 @@ services:
   fouroneone:
     container_name: fouroneone
     build: 411-web/
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${FOURONEONE_DB}
+      MYSQL_USER: ${FOURONEONE_DB_USER}
+      MYSQL_PASSWORD: ${FOURONEONE_DB_PASS}
     networks:
       - elk
     command:
@@ -115,12 +120,36 @@ services:
   fouroneonecron:
     container_name: fouroneonecron
     build: 411-web/
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${FOURONEONE_DB}
+      MYSQL_USER: ${FOURONEONE_DB_USER}
+      MYSQL_PASSWORD: ${FOURONEONE_DB_PASS}
     networks:
       - elk
     command:
       - /cron-entrypoint.sh
     depends_on:
       - mysql
+
+
+  411db:
+    container_name: 411db
+    image: mariadb:10.3.8-bionic
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${FOURONEONE_DB}
+      MYSQL_USER: ${FOURONEONE_DB_USER}
+      MYSQL_PASSWORD: ${FOURONEONE_DB_PASS}
+    networks:
+      - elk
+    volumes:
+      - ./mysql/sql/01_create_411_database.sql:/docker-entrypoint-initdb.d/01_create_411_database.sql:ro
+#      - mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+
 
 #===============================================================================#
 # MariaDB (MySQL compatible)                                                    #

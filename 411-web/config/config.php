@@ -49,16 +49,16 @@ $config['db'] = [
      */
     #'dsn' => 'sqlite:' . realpath(__DIR__ . '/data.db'),
 
-    'dsn' => 'mysql:host=mysql;dbname=fouroneone',
+    'dsn' => 'mysql:host=411db;dbname=' . getenv('MYSQL_DATABASE'),
     /**
      * The user name for connecting to the database.
      */
-    'user' => 'fouroneone',
+    'user' => getenv('MYSQL_USER'),
     /**
      * The password for connecting to the database. Optional if the PDO driver doesn't
      * require a password.
      */
-    'pass' => 'fouroneone',
+    'pass' => getenv('MYSQL_PASSWORD'),
 ];
 
 
