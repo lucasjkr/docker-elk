@@ -15,9 +15,7 @@ services:
 #===============================================================================#
   elasticsearch:
     container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.2
-#    build:
-#      context: elasticsearch/
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.4.0
     environment:
 #      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
       ES_JAVA_OPTS:   "-Xmx${ES_RAM}m -Xms${ES_RAM}m"
@@ -26,6 +24,8 @@ services:
       - ./elasticsearch/templates/winlogbeat.template.json:/usr/share/elasticsearch/templates/winlogbeat.template.json:ro
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./elasticsearch/config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
+    ports:
+      - "9200:9200"
     networks:
       - elk
 
@@ -52,7 +52,7 @@ services:
 
   kibana:
     container_name: kibana
-    image: docker.elastic.co/kibana/kibana-oss:6.3.2
+    image: docker.elastic.co/kibana/kibana-oss:6.4.0
 #    build:
 #      context: kibana/
     volumes:

@@ -1,4 +1,4 @@
-FROM docker.elastic.co/beats/metricbeat:6.3.2
+FROM docker.elastic.co/beats/metricbeat:6.4.0
 USER root
 
 # Install new YML file
