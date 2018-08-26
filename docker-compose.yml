@@ -18,7 +18,6 @@ services:
     container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.4.0
     environment:
-#      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
       ES_JAVA_OPTS: "-Xmx${ES_RAM}m -Xms${ES_RAM}m"
     volumes:
       - esdata:/usr/share/elasticsearch/data
@@ -39,6 +38,7 @@ services:
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
       - ./opt/logstash-forwarder.crt:/etc/logstash/pki/logstash-forwarder.crt:ro
       - ./opt/logstash-forwarder.key:/etc/logstash/pki/logstash-forwarder.key:ro
+
         # Temporary, til I figure out a process to download new databases weekly
       - ./logstash/maxmind/GeoLite2-City_20180807:/etc/maxmind:ro
     ports:
@@ -55,8 +55,6 @@ services:
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana-oss:6.4.0
-#    build:
-#      context: kibana/
     volumes:
       - ./kibana/config/:/usr/share/kibana/config:ro
     networks:
@@ -93,7 +91,7 @@ services:
     depends_on:
       - kibana
       - handesk
-      - fouroneone
+      - 411web
       - portainer
       - php
 
@@ -103,8 +101,8 @@ services:
 # 1 - Web Admin UI                                                              #
 # 2 - Scheduled Job Runner                                                      #
 #-------------------------------------------------------------------------------#
-  fouroneone:
-    container_name: fouroneone
+  411web:
+    container_name: 411web
     build: 411-web/
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -118,8 +116,8 @@ services:
     depends_on:
       - 411db
 
-  fouroneonecron:
-    container_name: fouroneonecron
+  411cron:
+    container_name: 411cron
     build: 411-web/
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -150,31 +148,9 @@ services:
       - "3307:3306"
 
 
-
 #===============================================================================#
-# MariaDB (MySQL compatible)                                                    #
+# Handesk Ticketing App                                                         #
 #===============================================================================#
-# 1 - 411 Database                                                              #
-# 2 - Handesk Database                                                          #
-#-------------------------------------------------------------------------------#
-#  mysql:
-#    container_name: mysql
-#    image: mariadb:10.3.8-bionic
-##    build:
-##      context: mysql/
-#    environment:
-#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-#      MYSQL_DATABASE: ${FOURONEONE_DB}
-#      MYSQL_USER: ${FOURONEONE_DB_USER}
-#      MYSQL_PASSWORD: ${FOURONEONE_DB_PASS}
-#    networks:
-#      - elk
-#    volumes:
-#      - ./mysql/sql:/docker-entrypoint-initdb.d:ro
-#      - mysql:/var/lib/mysql
-#    ports:
-#      - "3306:3306"
-
   handesk:
     container_name: handesk
     build:
