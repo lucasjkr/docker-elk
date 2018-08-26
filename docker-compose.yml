@@ -103,7 +103,7 @@ services:
 #-------------------------------------------------------------------------------#
   411web:
     container_name: 411web
-    build: 411-web/
+    build: 411/
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${FOURONEONE_DB}
@@ -118,7 +118,7 @@ services:
 
   411cron:
     container_name: 411cron
-    build: 411-web/
+    build: 411/
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${FOURONEONE_DB}
@@ -142,7 +142,7 @@ services:
     networks:
       - elk
     volumes:
-      - ./mysql/sql/01_create_411_database.sql:/docker-entrypoint-initdb.d/01_create_411_database.sql:ro
+      - ./411/sql/01_create_411_database.sql:/docker-entrypoint-initdb.d/01_create_411_database.sql:ro
       - 411db:/var/lib/mysql
     ports:
       - "3307:3306"
@@ -178,7 +178,7 @@ services:
     networks:
       - elk
     volumes:
-      - ./mysql/sql/02_create_handesk.sql:/docker-entrypoint-initdb.d/02_create_handesk.sql:ro
+      - ./handesk/sql/02_create_handesk.sql:/docker-entrypoint-initdb.d/02_create_handesk.sql:ro
       - handeskdb:/var/lib/mysql
     ports:
       - "3306:3306"
