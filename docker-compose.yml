@@ -7,7 +7,8 @@ volumes:
   esdata:
   handesk:
   portainer:
-  mysql:
+  411db:
+  handeskdb:
 
 services:
 #===============================================================================#
@@ -115,7 +116,7 @@ services:
     command:
       - /apache2-foreground.sh
     depends_on:
-      - mysql
+      - 411db
 
   fouroneonecron:
     container_name: fouroneonecron
@@ -130,8 +131,7 @@ services:
     command:
       - /cron-entrypoint.sh
     depends_on:
-      - mysql
-
+      - 411db
 
   411db:
     container_name: 411db
@@ -145,7 +145,7 @@ services:
       - elk
     volumes:
       - ./mysql/sql/01_create_411_database.sql:/docker-entrypoint-initdb.d/01_create_411_database.sql:ro
-#      - mysql:/var/lib/mysql
+      - 411db:/var/lib/mysql
     ports:
       - "3307:3306"
 
@@ -157,21 +157,23 @@ services:
 # 1 - 411 Database                                                              #
 # 2 - Handesk Database                                                          #
 #-------------------------------------------------------------------------------#
-  mysql:
-    container_name: mysql
-    image: mariadb:10.3.8-bionic
-#    build:
-#      context: mysql/
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    networks:
-      - elk
-    volumes:
-      - ./mysql/sql:/docker-entrypoint-initdb.d:ro
-      - mysql:/var/lib/mysql
-    ports:
-      - "3306:3306"
-
+#  mysql:
+#    container_name: mysql
+#    image: mariadb:10.3.8-bionic
+##    build:
+##      context: mysql/
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#      MYSQL_DATABASE: ${FOURONEONE_DB}
+#      MYSQL_USER: ${FOURONEONE_DB_USER}
+#      MYSQL_PASSWORD: ${FOURONEONE_DB_PASS}
+#    networks:
+#      - elk
+#    volumes:
+#      - ./mysql/sql:/docker-entrypoint-initdb.d:ro
+#      - mysql:/var/lib/mysql
+#    ports:
+#      - "3306:3306"
 
   handesk:
     container_name: handesk
@@ -179,12 +181,31 @@ services:
       context: handesk/
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${HANDESK_DB}
+      MYSQL_USER: ${HANDESK_DB_USER}
+      MYSQL_PASSWORD: ${HANDESK_DB_PASS}
     depends_on:
-      - mysql
+      - handeskdb
     networks:
       - elk
     volumes:
       - handesk:/var/www/html
+
+  handeskdb:
+    container_name: handeskdb
+    image: mariadb:10.3.8-bionic
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${HANDESK_DB}
+      MYSQL_USER: ${HANDESK_DB_USER}
+      MYSQL_PASSWORD: ${HANDESK_DB_PASS}
+    networks:
+      - elk
+    volumes:
+      - ./mysql/sql/02_create_handesk.sql:/docker-entrypoint-initdb.d/02_create_handesk.sql:ro
+      - handeskdb:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
   php:
     container_name: php
@@ -194,9 +215,16 @@ services:
     networks:
       - elk
     links:
-      - mysql
+      - handeskdb
     volumes:
       - handesk:/var/www/html
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: handeskdb
+      DB_PORT: 3306
+      DB_DATABASE: ${HANDESK_DB}
+      DB_USERNAME: ${HANDESK_DB_USER}
+      DB_PASSWORD: ${HANDESK_DB_PASS}
 
 
   portainer:

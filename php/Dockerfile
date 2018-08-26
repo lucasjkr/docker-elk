@@ -37,6 +37,9 @@ RUN echo "cgi.fix_pathinfo=0" > $PHP_INI_DIR/conf.d/path-info.ini
 # Disable expose PHP
 RUN echo "expose_php=0" > $PHP_INI_DIR/conf.d/path-info.ini
 
+# Allow environmental variables
+RUN echo "clear_env=no" > $PHP_INI_DIR/conf.d/environment.ini
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
