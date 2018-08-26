@@ -46,7 +46,6 @@ services:
       - "5045:5045"
       - "5046:5046"
     environment:
-#      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
       LS_JAVA_OPTS: "-Xmx${LS_RAM}m -Xms${LS_RAM}m"
       LS_METRICBEAT_DROP_RATE: ${LS_METRICBEAT_DROP_PERCENTAGE}
     networks:
@@ -100,6 +99,7 @@ services:
 #===============================================================================#
 # 1 - Web Admin UI                                                              #
 # 2 - Scheduled Job Runner                                                      #
+# 2 - Dedicated MariaDB Server                                                  #
 #-------------------------------------------------------------------------------#
   411web:
     container_name: 411web
@@ -183,6 +183,11 @@ services:
     ports:
       - "3306:3306"
 
+#===============================================================================#
+# PHP-FPM Container                                                             #
+#===============================================================================#
+# 1 - Currently used by Handesk                                                 #
+#-------------------------------------------------------------------------------#
   php:
     container_name: php
     build:
@@ -202,7 +207,9 @@ services:
       DB_USERNAME: ${HANDESK_DB_USER}
       DB_PASSWORD: ${HANDESK_DB_PASS}
 
-
+#===============================================================================#
+# Container Management Application                                              #
+#===============================================================================#
   portainer:
     image: portainer/portainer
     container_name: portainer
