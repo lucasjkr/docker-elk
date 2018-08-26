@@ -42,8 +42,14 @@ services:
         # Temporary, til I figure out a process to download new databases weekly
       - ./logstash/maxmind/GeoLite2-City_20180807:/etc/maxmind:ro
     ports:
+      # Metricbeat
       - "5044:5044"
+      - "50440:50440"
+
+      # Winlogbeat
       - "5045:5045"
+
+      # Filebeat
       - "5046:5046"
     environment:
       LS_JAVA_OPTS: "-Xmx${LS_RAM}m -Xms${LS_RAM}m"
