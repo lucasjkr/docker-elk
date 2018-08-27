@@ -24,8 +24,6 @@ services:
       - ./elasticsearch/templates/winlogbeat.template.json:/usr/share/elasticsearch/templates/winlogbeat.template.json:ro
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./elasticsearch/config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
-    ports:
-      - "9200:9200"
     networks:
       - elk
 
@@ -150,8 +148,6 @@ services:
     volumes:
       - ./411/sql/01_create_411_database.sql:/docker-entrypoint-initdb.d/01_create_411_database.sql:ro
       - 411db:/var/lib/mysql
-    ports:
-      - "3307:3306"
 
 
 #===============================================================================#
@@ -186,8 +182,6 @@ services:
     volumes:
       - ./handesk/sql/02_create_handesk.sql:/docker-entrypoint-initdb.d/02_create_handesk.sql:ro
       - handeskdb:/var/lib/mysql
-    ports:
-      - "3306:3306"
 
 #===============================================================================#
 # PHP-FPM Container                                                             #
