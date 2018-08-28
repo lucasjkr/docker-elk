@@ -13,14 +13,10 @@ RUN apt-get update && \
 RUN rm -f /dev/console && \
     ln -s /dev/ttyS0 /dev/console
 
-RUN touch /var/log/cron.log
+COPY jobs/update-last-run-log /etc/cron.d/update-last-run-log
 
-CMD tail -f /var/log/*
-
-#WORKDIR /root
-
-#ENTRYPOINT "cron"
-
-#CMD ["-f", "-d", "8"]
+RUN chmod 644 /etc/cron.d/update-last-run-log && \
+    touch /var/log/cron.log
+CMD cron -f && tail -f /var/log/cron.log
 
 # This works (size 166 MB)

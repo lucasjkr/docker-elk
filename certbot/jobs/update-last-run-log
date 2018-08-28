@@ -1,0 +1,9 @@
+# /etc/cron.d/test: crontab entries for the cron test
+#
+# Runs every minute, so you can do ls -al /root/testfile
+# to see when the last time your cron jobs ran
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+* * * * * root touch /root/test-file && now="$(date)" &&  echo $now . " - jobs in cron.d ran" >> /var/log/cron.log 2>&1
+
