@@ -221,3 +221,14 @@ services:
       - portainer:/data
     networks:
       - elk
+
+#===============================================================================#
+# Optional - for generating Lets Encrypt SSL Certificates                       #
+#===============================================================================#
+  certbot:
+    build:
+      context: certbot/
+      dockerfile: Dockerfile
+    container_name: certbot
+    networks:
+      - elk
