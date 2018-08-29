@@ -56,8 +56,8 @@ Currently using basic authentication over SSL, so enter the following two comman
 and enter your password where prompted:
 
 ```
-bash -c "echo -n 'sammy:' >> ./opt/nginx.users"
-bash -c "openssl passwd -apr1 >> ./opt/nginx.users"
+bash -c "echo -n 'admin:' >> ./opt/nginx.users" && \
+    bash -c "openssl passwd -apr1 >> ./opt/nginx.users"
 
 ```
 
@@ -81,10 +81,11 @@ Take note of your machines IP Address (example: 10.1.10.201) and edit `/etc/host
 docker-compose up
 ```
 
-#### Load metribeat Index Template into Elasticsearch
+##### Install Metricbeat Index Template Into Elasticsearch
 ```
-docker exec metricbeat metricbeat setup --template -E output.logstash.enabled=false \
-    -E 'output.elasticsearch.hosts=["elasticsearch:9200"]'
+docker exec elasticsearch curl -XPUT -H 'Content-Type: application/json' \
+    http://elasticsearch:9200/_template/metricbeat-6.4.0 \
+    -d@templates/metricbeat-6.4.0.template.json
 ```
 
 #### Load metribeat Dashboards into Kibana
@@ -94,7 +95,7 @@ docker exec metricbeat metricbeat setup --dashboards
 
 #### Delete old metricbeat data
 ```
-docker exec elasticsearch curl -XDELETE 'http://elasticsearch:9200/metricbeat-*'
+docker exec elasticsearch curl -XDELETE 'http://elasticsearch:9200/metricbeat-6.4.0*'
 ```
 
 ##### Install Winlogbbeat Template
