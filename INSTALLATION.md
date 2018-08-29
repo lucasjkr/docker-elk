@@ -8,39 +8,7 @@ Standard install, with OpenSSH Server, Docker-CE, and Docker Compose.
 
 ## Pre-Installation Tasks (on the host!)
 
-#### Clone the Git Repository
-
-```
-git clone https://github.com/lucasjkr/docker-elk
-cd docker-elk
-```
-
-#### Generate SSL/TLS Certificates and keys
-
-```
-/bin/bash generate.sh
-```
-
-If you have your own keys/certificates already, you can just place them in the `/opt` directory inside the repository - just follow the naming convention in `generate.sh`.
-
-**NOTE** Nginx connections are encrypted with SSL, but are still available for anyone to log into. 
-Therefore, firewall settings must be enforced to limit access; this will change in the future.
-Also note, other containers (specifically, logstash) aren't actually using SSL anywhere yet, that feature will come very soon though.
-
-
-#### Create Usernames and Passwords for Kibana
-
-Currently using basic authentication over SSL, so enter the following two commands
-and enter your password where prompted:
-
-```
-bash -c "echo -n 'sammy:' >> ./opt/nginx.users"
-bash -c "openssl passwd -apr1 >> ./opt/nginx.users"
-
-```
-
-
-#### Adjust virtual memory settings
+### Adjust virtual memory settings
 
 **Temporary fix:**
 
@@ -61,7 +29,39 @@ Append the following lines to you `/etc/sysctl.conf`
 vm.max_map_count=262144
 ```
 
-#### DNS Entries
+
+### Clone the Git Repository
+
+```
+git clone https://github.com/lucasjkr/docker-elk
+cd docker-elk
+```
+
+### Generate SSL/TLS Certificates and keys
+
+```
+/bin/bash generate.sh
+```
+
+If you have your own keys/certificates already, you can just place them in the `/opt` directory inside the repository - just follow the naming convention in `generate.sh`.
+
+**NOTE** Nginx connections are encrypted with SSL, but are still available for anyone to log into. 
+Therefore, firewall settings must be enforced to limit access; this will change in the future.
+Also note, other containers (specifically, logstash) aren't actually using SSL anywhere yet, that feature will come very soon though.
+
+
+### Create Usernames and Passwords for Kibana
+
+Currently using basic authentication over SSL, so enter the following two commands
+and enter your password where prompted:
+
+```
+bash -c "echo -n 'sammy:' >> ./opt/nginx.users"
+bash -c "openssl passwd -apr1 >> ./opt/nginx.users"
+
+```
+
+### DNS Entries
 
 If you don't have access to a DNS Server on your network and don't want to add A records to your TLD, you can still get by by adding the following entries to the `hosts` file of whichever machines will be accessing the setup.
 
@@ -101,7 +101,7 @@ docker exec elasticsearch curl -XDELETE 'http://elasticsearch:9200/metricbeat-*'
 ```
 docker exec elasticsearch curl -XPUT -H 'Content-Type: application/json' \
     http://elasticsearch:9200/_template/winlogbeat-6.3.2 \
-    -d@templates/winlogbeat.template.json
+    -d@templates/winlogbeat-6.3.2.template.json
 ```
 
 #### Delete old Winlogbeat Data
