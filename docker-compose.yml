@@ -42,7 +42,7 @@ services:
     ports:
       # Metricbeat
       - "5044:5044"
-      - "50440:50440"
+      - "6044:6044"
 
       # Winlogbeat
       - "5045:5045"
