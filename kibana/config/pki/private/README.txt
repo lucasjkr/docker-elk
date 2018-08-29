@@ -1,1 +1,0 @@
-This directory should hold Nginx's certificates private key

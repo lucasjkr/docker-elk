@@ -1,1 +1,0 @@
-This directory should contain the SSL Certificate for Ngninx
