@@ -19,4 +19,4 @@ RUN chmod 644 /etc/cron.d/update-last-run-log && \
     touch /var/log/cron.log
 CMD cron -f && tail -f /var/log/cron.log
 
-# This works (size 166 MB)
+# This works (size 160 MB)
