@@ -73,6 +73,8 @@ services:
     networks:
       - elk
     restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 #===============================================================================#
 # Nginx, provides SSL, Reverse Proxy for Kibana, 411, serves Handesk            #
