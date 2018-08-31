@@ -7,9 +7,9 @@ USER root
 #RUN chown metricbeat metricbeat.yml && chmod 600 metricbeat.yml
 #USER metricbeat
 
-
 WORKDIR /usr/share/metricbeat
 COPY config/metricbeat.yml metricbeat.yml
-#RUN chown root metricbeat.yml && chmod 600 metricbeat.yml
-#RUN chown root modules/* && chmod 600 root modules/*
-#USER metricbeat
+RUN chown root metricbeat.yml && \
+    chmod 600 metricbeat.yml && \
+    chown root modules.d/* && \
+    chmod 600 modules.d/*
