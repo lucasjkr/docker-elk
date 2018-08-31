@@ -73,7 +73,10 @@ services:
     networks:
       - elk
     restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
+    # For monitoring the Docker Host
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
 #===============================================================================#

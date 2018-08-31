@@ -22,6 +22,12 @@ metricbeat.config.modules:
 
 #==========================  Modules configuration ============================
 metricbeat.modules:
+- module: mysql
+  metricsets: ["status"]
+  hosts: ["tcp(411db:3306)/"]
+  username: root
+  password: ${MYSQL_ROOT_PASSWORD}
+
 - module: docker
   metricsets:
     - "container"
