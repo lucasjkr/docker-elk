@@ -33,7 +33,6 @@ RUN tar xvfz etsy_411-1.5.0.tgz && \
 WORKDIR /tmp
 COPY config/* ./
 RUN mv /tmp/411.conf /etc/apache2/sites-available/000-default.conf && \
-    mv /tmp/config.php /var/www/411/config.php && \
     mv /tmp/init.php /var/www/411/init.php && \
     mv /tmp/mail.ini /usr/local/etc/php/conf.d/mail.ini
 

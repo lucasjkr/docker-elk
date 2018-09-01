@@ -118,6 +118,8 @@ services:
       MYSQL_DATABASE: ${FOURONEONE_DB}
       MYSQL_USER: ${FOURONEONE_DB_USER}
       MYSQL_PASSWORD: ${FOURONEONE_DB_PASS}
+    volumes:
+      - ./411/config/config.php:/var/www/411/config.php:ro
     networks:
       - elk
     command:
@@ -133,6 +135,8 @@ services:
       MYSQL_DATABASE: ${FOURONEONE_DB}
       MYSQL_USER: ${FOURONEONE_DB_USER}
       MYSQL_PASSWORD: ${FOURONEONE_DB_PASS}
+    volumes:
+      - ./411/config/config.php:/var/www/411/config.php:ro
     networks:
       - elk
     command:
