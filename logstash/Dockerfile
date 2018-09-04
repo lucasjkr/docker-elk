@@ -9,5 +9,6 @@ RUN ./bin/logstash-plugin install logstash-input-beats && \
     ./bin/logstash-plugin install logstash-filter-mutate
 
 EXPOSE 5044
+EXPOSE 6044
 EXPOSE 5045
 EXPOSE 5046
