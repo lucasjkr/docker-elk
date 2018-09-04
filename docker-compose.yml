@@ -40,6 +40,9 @@ services:
         # Temporary, til I figure out a process to download new databases weekly
       - ./logstash/maxmind/GeoLite2-City_20180807:/etc/maxmind:ro
     ports:
+      # Syslog
+      - "5000:5000"
+
       # Metricbeat
       - "5044:5044"
       - "6044:6044"
