@@ -19,11 +19,15 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.4.0
     environment:
       ES_JAVA_OPTS: "-Xmx${ES_RAM}m -Xms${ES_RAM}m"
+    restart: unless-stopped
     volumes:
       - esdata:/usr/share/elasticsearch/data
       - ./elasticsearch/templates/:/usr/share/elasticsearch/templates:ro
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./elasticsearch/config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
+    ports:
+      - "9200:9200"
+
     networks:
       - elk
 
@@ -31,6 +35,7 @@ services:
     container_name: logstash
     build:
       context: logstash/
+    restart: unless-stopped
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
@@ -61,6 +66,7 @@ services:
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana-oss:6.4.0
+    restart: unless-stopped
     volumes:
       - ./kibana/config/:/usr/share/kibana/config:ro
     networks:
@@ -89,6 +95,7 @@ services:
     container_name: nginx
     build:
       context: nginx/
+    restart: unless-stopped
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d:ro
       - ./opt/:/etc/nginx/certs:ro
@@ -116,6 +123,7 @@ services:
   411web:
     container_name: 411web
     build: 411/
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${FOURONEONE_DB}
@@ -133,6 +141,7 @@ services:
   411cron:
     container_name: 411cron
     build: 411/
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${FOURONEONE_DB}
@@ -150,6 +159,7 @@ services:
   411db:
     container_name: 411db
     image: mariadb:10.3.8-bionic
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${FOURONEONE_DB}
@@ -184,6 +194,7 @@ services:
   handeskdb:
     container_name: handeskdb
     image: mariadb:10.3.8-bionic
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${HANDESK_DB}
@@ -205,6 +216,7 @@ services:
     build:
       context: php/
       dockerfile: Dockerfile
+    restart: unless-stopped
     networks:
       - elk
     links:
@@ -225,6 +237,7 @@ services:
   portainer:
     image: portainer/portainer
     container_name: portainer
+    restart: unless-stopped
     ports:
       - "9000:9000"
     command: -H unix:///var/run/docker.sock
