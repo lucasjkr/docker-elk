@@ -43,11 +43,8 @@ $config['auth'] = [
  */
 $config['db'] = [
     /**
-     * A PDO compatible DSN. See https://secure.php.net/manual/en/pdo.drivers.php for details.
-     * SQLite is the default configuration but MySQL is also supported. To configure the latter,
-     * you'll need a dsn like the following: 'mysql:host=localhost;dbname=fouroneone'.
+     * A PDO compatible DSN.
      */
-    #'dsn' => 'sqlite:' . realpath(__DIR__ . '/data.db'),
 
     'dsn' => 'mysql:host=411db;dbname=' . getenv('MYSQL_DATABASE'),
     /**
@@ -179,6 +176,44 @@ $config['graphite'] = [
         'host' => null,
     ],
 ];
+
+
+/**
+ * Notifications
+ *
+ * Configure to set how alerts are sent.
+ */
+$config['notifications'] = [
+    # Engine can be 'sendmail', 'smtp', log', or 'none'
+    # 'sendmail' uses the sendmail functionality on the 411 server
+    # 'smtp' sends email using SMTP through a separate server
+    # 'log' appends messages to a logfile without sending
+    # 'none' does not attempt to send messages at all **TO COME**
+    'engine' => 'log',
+
+    # Format
+    # Can be 'html' or 'text'
+    'format' => 'text',
+
+    # sendmail settings
+    # *NONE*
+
+    # phpmailer settings
+    'smtp' => [
+        'server'   => 'smtp.host.com',
+        'username' => 'smtpuser@gmail.com',
+        'password' => 'your super strong password here',
+        'port'     => '587',
+        'replyname'     => '411 Administrator',
+        'replyaddress'  => '411@alerts.com',
+    ],
+    # logfile settings
+    'log' => [
+        'path' => '/tmp',
+        'file' => '411.log',
+    ],
+];
+
 
 /**
  * ThreatExchange
